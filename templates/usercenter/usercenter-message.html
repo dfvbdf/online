@@ -1,0 +1,45 @@
+{% load staticfiles %}
+    <div class="head" id="right_bottom_head">
+        <ul class="tab_header messagehead" id="message_tab">
+            <li class="active"><a href="javascript:">个人消息</a> </li>
+            <li class=""><a href="javascript:">系统消息</a> </li>
+        </ul>
+    </div>
+	<div class="messagelist">
+    {% for message in user_message %}
+       <div class="messages">
+                <div style="float:left;font-size: 16px;margin: 0px 10px 0px 20px;height: 68px;width: 120px;line-height: 68px;">
+                    <img style="cursor:pointer;" width="75" height="75" class="js-img-show" id="avatarShow" src="{{ MEDIA_URL }}{{ message.send_user.pic }}">
+                </div>
+                <div class="fl">
+                    <div class="top"><span class="fl time">{{ message.add_time }}</span></div>
+                    <p>
+                        {{ message.content }}
+                    </p>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+    <div class="messagelist" style="display: none;">
+        {% for message in public_message %}
+       <div class="messages">
+           <div style="float:left;font-size: 16px;margin: 0px 10px 0px 20px;height: 68px;width: 120px;line-height: 68px;">
+                        <p>在线学习平台</p>
+                    </div>
+            <div class="fl">
+                <div class="top"><span class="fl time">{{ message.add_time }}</span></div>
+                <p>
+                    {{ message.content }}
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+<script>
+    $(function () {
+         $('#message_tab').children('li').click(function () {
+        $(this).addClass('active').siblings().removeClass('active');
+        $('.messagelist').hide().eq($(this).index()).show()
+    })
+    })
+</script>

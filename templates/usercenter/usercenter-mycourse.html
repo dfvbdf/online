@@ -1,0 +1,23 @@
+{% load staticfiles %}
+{% block body %}
+			<div class="companycenter">
+				<div class="group_list brief">
+                  {% for study in study_course %}
+                    <div class="module1_5 box">
+                            <a href="{% url 'course_detail' study.course.id %}">
+                                <img width="214" height="190" class="scrollLoading" src="{{ MEDIA_URL }}{{ study.course.pic }}"/>
+                            </a>
+                            <div class="des">
+                                <a href="{% url 'course_detail' study.course.id %}"><h2>{{ study.course.name }}</h2></a>
+                                <span class="fl">课时：<i class="key">{{ study.course.get_chapter }}</i></span>
+                                <span class="fr">学习人数：{{ study.course.study_num }}</span>
+                            </div>
+                            <div class="bottom">
+                                <span class="fl">{{ study.course.teacher.school }}</span>
+                                <span class="star fr  notlogin" data-favid="15">{{ study.course.collection_num }}</span>
+                            </div>
+                        </div>
+                {% endfor %}
+				</div>
+			</div>
+{% endblock %}

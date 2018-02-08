@@ -1,0 +1,119 @@
+{% extends 'base-main-list.html' %}
+{% load staticfiles %}
+{% block body %}
+<!--crumbs start-->
+
+    <section>
+        <div class="wp">
+            <ul  class="crumbs">
+                <li><a href="{% url 'index' %}">首页</a>></li>
+                <li>公开课</li>
+            </ul>
+        </div>
+    </section>
+
+
+    <section>
+	<div class="wp">
+		<div class="list" style="margin-top:0;">
+			<div class="left layout">
+				<div class="head">
+					<ul class="tab_header" id="tab_header">
+						<li class="active"><a href="javascript:">最新 </a></li>
+						<li ><a href="javascript:">最热门</a></li>
+						<li ><a href="javascript:">参与人数</a></li>
+					</ul>
+				</div>
+                <div id="inWindow">
+                    <div class="tab_cont " id="content">
+					<div class="group_list" id="group_list">
+
+
+					</div>
+                    <div class="pageturn">
+                        <ul class="pagelist" id="pagelist">
+                                <li class="long"><a href="javascript:">上一页</a></li>
+                            {% for index in pagi.page_range %}
+                                <li><a href="javascript:" class="page">{{ index }}</a></li>
+                            {% endfor %}
+                                <li class="long"><a href="javascript:">下一页</a></li>
+                        </ul>
+                    </div>
+				</div>
+                </div>
+			</div>
+			<div class="right layout">
+				<div class="head">热门课程推荐</div>
+				<div class="group_recommend">
+                   {% for course in hot_course %}
+                    <dl>
+						<dt>
+							<a target="_blank" href="{% url 'course_detail' course.id %}">
+								<img width="240" height="220" class="scrollLoading" src="{{ MEDIA_URL }}{{ course.pic }}"/>
+							</a>
+						</dt>
+						<dd>
+							<a target="_blank" href=""><h2>{{ course.name }}</h2></a>
+							<span class="fl">难度：<i class="key">{{ course.level_str }}</i></span>
+						</dd>
+					</dl>
+                   {% endfor %}
+
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock body %}
+{% block js2 %}
+<script src="{% static 'js/selectUi.js' %}" type='text/javascript'></script>
+<script src="{% static 'js/deco-common.js' %}" type='text/javascript'></script>
+<script type="text/javascript" src="{% static 'js/plugins/laydate/laydate.js' %}"></script>
+<script src="{% static 'js/plugins/layer/layer.js' %}"></script>
+<script src="{% static 'js/plugins/queryCity/js/public.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/unslider.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/plugins/jquery.scrollLoading.js' %}"  type="text/javascript"></script>
+<script src="{% static 'js/deco-common.js' %}"  type="text/javascript"></script>
+    <script>
+        $(function () {
+            var page=1,order=0,tab=$('#tab_header'),box=$('#group_list'),page_list=$('#pagelist');
+            var refresh=function () {
+                $.get(
+                    '/course/course_list/'+order+'/'+page+'/',
+                    function (result) {
+                        box.empty();
+                        box.append(result.content)
+                    }
+                );
+                page_list.children('li').eq(page).addClass('active').siblings().removeClass('active');
+             tab.children('li').eq(order).addClass('active').siblings().removeClass('active');
+            };
+// 排序方式切换
+            tab.children('li').click(function () {
+               page=1;
+               order = $(this).index();
+               refresh()
+            });
+            var max_page = page_list.children('li').length;
+            // 页面切换
+           page_list.children('li').slice(1,max_page-1).click(function () {
+              page = $(this).index();
+              refresh()
+           });
+          // 点击上一页按钮时
+         page_list.children('li').first().click(function () {
+             if(page>1){page=page-1}
+             else {page=1}
+             refresh()
+         });
+         // 点击下一页按钮时
+         page_list.children('li').last().click(function () {
+             if(page<max_page-2){page=page+1}
+             else {page=max_page-2}
+             refresh()
+         });
+         refresh()
+
+        })
+    </script>
+{% endblock js2 %}

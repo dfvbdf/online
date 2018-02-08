@@ -1,0 +1,65 @@
+{% load staticfiles %}
+<div class="right companycenter layout grouping" >
+		<div class="head">
+			<h1>全部课程</h1>
+			<a class="green fr more" href="javascript:">查看更多  >  </a>
+		</div>
+		<div class="brief group_list">
+    {% for course in all_course %}
+        {% if forloop.counter <= 4 %}
+
+                <div class="module1_5 box">
+                    <a href="{% url 'org_detail' org.id 0 %}"><img width="214" src="{{ MEDIA_URL }}{{ course.pic }}"/></a>
+                    <div class="des">
+                        <a href="{% url 'course_detail' course.id %}"><h2>{{ course.name }}</h2></a>
+                        <span class="fl">课时：<i class="key">{{ course.get_chapter }}</i></span>
+                        <span class="fr">参加人数：{{ course.study_num }}</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="fl">{{ course.teacher.school }}</span>
+                         <span class="star fr  notlogin
+                            " data-favid="13"  data-fav-type="4">
+                            {{ course.collection_num }}
+                        </span>
+                    </div>
+                </div>
+        {% endif %}
+{% endfor %}
+		</div>
+	</div>
+<div class="right companycenter layout" >
+    <div class="head">
+        <h1>机构教师</h1>
+        <a class="green fr more" href="javascript:">查看更多  >  </a>
+    </div>
+{% for teacher in all_teacher %}
+    {% if forloop.counter <= 3 %}
+    <div class="diarys">
+        <div class="module5 share company-diary-box" style="padding:10px 0;">
+            <div class="left">
+                <img class="pic" src="{{ MEDIA_URL }}{{ teacher.pic }}"/>
+                <p>昵称：{{ teacher.name }}</p>
+            </div>
+            <div class="right">
+                <div class="top">
+                    <div class="fl">
+                        <a href=""><h1>{{ teacher.get_hot_course.name }}</h1></a>
+                        <span>发表于：{{ teacher.get_hot_course.add_time }}</span>
+                    </div>
+                </div>
+                <div class="middle" style="border-bottom:0;">{{ teacher.get_hot_course.desc }}</div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endfor %}
+
+
+</div>
+<div class="right companycenter layout" >
+    <div class="head">
+        <h1>机构介绍</h1>
+        <a class="green fr more" href="javascript:">查看更多  >  </a>
+    </div>
+    <div class="cont more">{{ org_desc }}<a href="javascript:"><span class="green">[查看更多]</span></a></div>
+</div>

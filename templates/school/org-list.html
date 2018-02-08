@@ -1,0 +1,114 @@
+{% extends 'base-main-list.html' %}
+{% load staticfiles %}
+{% block js %}
+    <script src="{% static 'js/jquery.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}" type="text/javascript"></script>
+{% endblock %}
+{% block body %}
+ <section>
+	<div class="wp">
+		<div class="crumbs">
+			<ul>
+				<li><a href="{% url 'index' %}">首页</a>></li>
+                <li>课程机构</li>
+			</ul>
+		</div>
+	</div>
+</section>
+<section>
+	<div class="wp butler_list_box list">
+	<div class='left'>
+		<div class="listoptions">
+			<ul>
+				<li>
+					<h2>机构类别</h2>
+					<div class="cont" id="tab">
+                        <span class="active2">全部</span>
+
+                            <span class="">培训机构</span>
+
+                            <span class="">高校</span>
+
+                            <span class="">个人</span>
+
+					</div>
+				</li>
+				<li>
+					<h2>所在地区</h2>
+					<div class="more">更多</div>
+					<div class="cont" id="city">
+                        <span class="active2">全部</span>
+                            {% for city in city_list %}
+                                <span class="">{{ city.name }}</span>
+                            {% endfor %}
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="all">共<span class="key">{{ org_count }}</span>家</div>
+		<div class="butler_list company list" id="org_box">
+
+		</div>
+	</div>
+	<div class="right companyright">
+			<div class="head">我要学习</div>
+			<form class="rightform" id="jsStayForm">
+				<div>
+                    <img src="{% static 'images/rightform1.png' %}"/>
+                    <input type="text" name="name" id="companyName" placeholder="名字" maxlength="25" />
+                </div>
+				<div>
+                    <img src="{% static 'images/rightform2.png' %}"/>
+                    <input type="text" name="tell" id="companyMobile" placeholder="联系电话"/>
+                </div>
+				<div>
+                    <img src="{% static 'images/rightform3.png' %}"/>
+                    <input type="text" name="course" id="companyAddress" placeholder="课程名" maxlength="50" />
+                </div>
+                <p class="error company-tips" id="jsCompanyTips"></p>
+				<input class="btn" type="text" id="jsStayBtn" value="立即咨询 >" />
+            </form>
+		</div>
+
+		<div class="right companyrank layout">
+			<div class="head">授课机构排名</div>
+            {% for org in org_order %}
+                <dl class="des">
+                    <dt class="num fl">{{ forloop.counter }}</dt>
+                    <dd>
+                        <a href="{% url 'org_detail' org.id 0 %}"><h1>{{ org.name }}</h1></a>
+                        <p>{{ org.city }}</p>
+                    </dd>
+                </dl>
+            {% endfor %}
+		</div>
+        </div>
+</section>
+{% endblock %}
+{% block js2 %}
+<script src="{% static 'js/jquery.cookie.js' %}"></script>
+<script src="{% static 'js/selectUi.js' %}" type='text/javascript'></script>
+<script src="{% static 'js/deco-common.js' %}" type='text/javascript'></script>
+<script type="text/javascript" src="{% static 'js/plugins/laydate/laydate.js' %}"></script>
+<script src="{% static 'js/plugins/layer/layer.js' %}"></script>
+<script src="{% static 'js/plugins/queryCity/js/public.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/unslider.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/plugins/jquery.scrollLoading.js' %}"  type="text/javascript"></script>
+<script src="{% static 'js/deco-common.js' %}"  type="text/javascript"></script>
+     <script>
+
+    $(function(){
+        $.ajaxSetup({
+            beforeSend:function (xhr,settings) {
+                xhr.setRequestHeader("X-CSRFtoken",'{{ csrf_token }}')
+            }
+        });
+
+
+})
+
+
+</script>
+    <script src="{% static 'js/org_list.js' %}"></script>
+
+{% endblock %}

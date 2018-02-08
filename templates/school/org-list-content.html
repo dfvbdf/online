@@ -1,0 +1,63 @@
+{% load staticfiles %}
+{% load tags %}
+<div class="layout">
+			<div class="head">
+				<ul class="tab_header" id="tab_header">
+					<li class=""><a href="javascript:">全部</a> </li>
+					<li class=""><a href="javascript:">学习人数 &#8595;</a></li>
+					<li class=""><a href="javascript:">课程数 &#8595;</a></li>
+				</ul>
+			</div>
+{% for org in now_page.object_list %}
+                <dl class="des difdes">
+                    <dt>
+                        <a href="{% url 'org_detail' org.id 0 %}">
+                            <img width="200" height="120" class="scrollLoading" src="{{ MEDIA_URL }}{{ org.pic }}"/> <!--data-url="{{ MEDIA_URL }}org/2016/11/imooc.png"-->
+                        </a>
+                    </dt>
+                    <dd>
+                        <div class="clearfix">
+                             <a href="{% url 'org_detail' org.id 0 %}">
+                                 <h1>{{ org.name }}</h1>
+                                 <div class="pic fl">
+
+                                         <img src="{% static 'images/authentication.png' %}"/>
+
+                                         <img src="{% static 'images/gold.png' %}"/>
+
+                                 </div>
+                             </a>
+                        </div>
+                        <ul class="cont">
+                            <li class="first"><p class="pic9">课程数：<span>{{ org.collection }}</span></p><p class="c7">学习人数：<span>{{ org.get_study_num }}</span></p></li>
+                            <li class="c8" style="padding-left:18px;">{{ org.addr }}</li>
+                            <li class="pic10" style="padding-left:18px;">经典课程：
+
+                                    <a href="{% url 'org_detail' org.id 0 %}">{{ org.main_course_1 }}</a>
+
+                                    <a href="{% url 'org_detail' org.id 0 %}">{{ org.main_course_2 }}</a>
+
+                            </li>
+                        </ul>
+                    </dd>
+                    <div class="buy start_groupbuy jsShowPerfect2" data-id="22"><br/>联系<br/>服务</div>
+                </dl>
+{% endfor %}
+
+		</div>
+		 <div class="pageturn">
+            <ul class="pagelist" id="pagelist" num_pages="{{ pages.num_pages }}">
+                <li class="long" id="prev"><a href="javascript:">上一页</a></li>{# {% url 'org_list' now_page.previous_page_number %} #}
+                 {% for page in pages.page_range %}
+                            <li><a href="javascript:" class="page">{{ page }}</a></li>{# {% url 'org_list' page.number %} #}
+                 {% endfor %}
+{#            {% for page in now_page.pages %}#}
+{#                     {% if page %}#}
+{#                            <li><a href="javascript:" class="page">{{ page }}</a></li>#}
+{#                     {% else %}#}
+{#                            <li class="none"><a href="">...</a></li>#}
+{#                     {% endif %}#}
+{#                 {% endfor %}#}
+                <li class="long" id="next"><a href="javascript:">下一页</a></li>{# {% url 'org_list' now_page.next_page_number %} #}
+            </ul>
+        </div>

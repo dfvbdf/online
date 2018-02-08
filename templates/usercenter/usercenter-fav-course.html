@@ -1,0 +1,30 @@
+{% load staticfiles %}
+{% block body %}
+    <div class="head" id="right_bottom_head">
+        <ul class="tab_header messagehead" id="collect_tab">
+            <li><a href="javascript:">课程机构</a> </li>
+            <li><a href="javascript:">授课教师 </a></li>
+            <li class="active"><a href="javascript:">公开课程</a></li>
+        </ul>
+    </div>
+    <div class="companycenter">
+        <div class="group_list brief">
+            {% for course in collect_obj %}
+            <div class="module1_5 box collect_obj">
+                <a href="{% url 'course_detail' course.id %}">
+                    <img width="214" height="190" src="{{ MEDIA_URL }}{{ course.pic }}"/>
+                </a>
+                <div class="des">
+                    <a href="{% url 'course_detail' course.id %}"><h2>{{ course.name }}</h2></a>
+                    <span class="fl">时长：<i class="key">{{ course.time }}</i></span>
+                    <span class="fr">学习人数：{{ course.study_num }}</span>
+                </div>
+                <div class="bottom">
+                    <span class="fl">{{ course.teacher.school }}</span>
+                    <span class="delete-group fr jsDeleteFav_course" data-favid="12" oid="{{ course.id }}"></span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+     </div>
+{% endblock %}

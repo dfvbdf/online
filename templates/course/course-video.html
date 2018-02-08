@@ -1,0 +1,22 @@
+<div id="notice" class="clearfix">
+                    <div class="l"> <strong>课程公告:</strong> <a  href="javascript:void(0)">{{ course.public_text }}</a> </div>
+</div>
+
+<div class="mod-chapters">
+    {% for chapter in chapters %}
+    <div class="chapter chapter-active" >
+        <h3>
+            <strong><i class="state-expand"></i>{{ chapter.name }}</strong>
+        </h3>
+        <ul class="video">
+        {% for video in chapter.video_set.all %}
+            <li>
+                <a target="_blank" href='javascript:' class="J-media-item studyvideo">{{ video.name }}
+                    <i class="study-state"></i>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+</div>
